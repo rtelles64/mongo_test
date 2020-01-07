@@ -122,6 +122,9 @@ client = MongoClient('localhost', 27017)
 # To specify which database you actually want to use, access it as an attribute
 # db = client.pymongo_test
 
+# THIS CODE REMOVES DATABASE TO ENSURE WE WORK CLEANLY WITH EACH RUN
+client.drop_database('pymongo_test')
+
 # Or by dictionary_style access:
 db = client['pymongo_test']
 
@@ -184,5 +187,9 @@ scotts_posts = posts.find({'author': 'Scott'})
 print(scotts_posts)  # <pymongo.cursor.Cursor object at 0x10acd3910>
 
 # Cursor object is iterable, just iterate to get each document
+print("Scott's Posts:")
 for post in scotts_posts:
     print(post)
+# {'_id': ObjectId('5e1514051b5d8d5f43825f18'),
+# 'title': 'Virtual Environments',
+# 'content': 'Use virtual environments, you guys', 'author': 'Scott'}
