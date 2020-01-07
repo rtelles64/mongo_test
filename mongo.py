@@ -146,7 +146,7 @@ post_data = {
 # The second line is where you actually insert the data into the collection
 # using the insert_one() method
 result = posts.insert_one(post_data)
-print(f'One post: {result.inserted_id}')
+print(f'One post: {result.inserted_id}')  # One post: 5e150dcd1b5d8d5350bf6577
 
 # We can even insert many documents at a time using insert_many(), which takes
 # an array of document data
@@ -164,6 +164,8 @@ post_3 = {
 
 new_result = posts.insert_many([post_2, post_3])
 print(f'Multiple posts: {new_result.inserted_ids}')
+# Multiple posts: [ObjectId('5e150dcd1b5d8d5350bf6578'),
+# ObjectId('5e150dcd1b5d8d5350bf6579')]
 
 # Retrieving Documents
 # To retrieve a document, use the find_one() method, the argument it takes is
@@ -172,3 +174,15 @@ print(f'Multiple posts: {new_result.inserted_ids}')
 # Retrieve the post that was written by Bill
 bills_post = posts.find_one({'author': 'Bill'})
 print(bills_post)
+# {'_id': ObjectId('5e150b181b5d8d524ea862fa'), 'title': 'Learning Python',
+# 'content': 'Learn Python, it is easy', 'author': 'Bill'}
+
+# If we want to find more than one document, we can use find()
+#
+# Find all posts written by Scott
+scotts_posts = posts.find({'author': 'Scott'})
+print(scotts_posts)  # <pymongo.cursor.Cursor object at 0x10acd3910>
+
+# Cursor object is iterable, just iterate to get each document
+for post in scotts_posts:
+    print(post)
