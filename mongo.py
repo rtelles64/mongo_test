@@ -164,3 +164,11 @@ post_3 = {
 
 new_result = posts.insert_many([post_2, post_3])
 print(f'Multiple posts: {new_result.inserted_ids}')
+
+# Retrieving Documents
+# To retrieve a document, use the find_one() method, the argument it takes is
+# a dictionary that contains fields to match. It can take other arguments.
+#
+# Retrieve the post that was written by Bill
+bills_post = posts.find_one({'author': 'Bill'})
+print(bills_post)
