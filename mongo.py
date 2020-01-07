@@ -128,3 +128,22 @@ db = client['pymongo_test']
 # It doesn't matter if the specified database has been created yet. By
 # specifying this database name and saving data to it, you create the database
 # automatically
+
+# Inserting Documents
+# Storing data is as easy as calling two lines of code:
+# The first line specifies which collection to use.
+posts = db.posts
+
+# A collection is a group of documents that are stored together within the
+# database. Collections and documents are akin to SQL tables and rows,
+# respectively. Retrieving a collection is as easy as getting a database
+post_data = {
+    'title': 'Python and MongoDB',
+    'content': 'PyMongo is fun, you guys',
+    'author': 'Roy'
+}
+
+# The second line is where you actually insert the data into the collection
+# using the insert_one() method
+result = posts.insert_one(post_data)
+print(f'One post: {result.inserted_id}')
