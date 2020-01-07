@@ -1,6 +1,9 @@
 # This file demonstrates how to use Python to interface with MongoDB
 import pymongo
 
+# MongoClient is used to communicate with the running database instance
+from pymongo import MongoClient
+
 # SQL vs NoSQL
 # MongoDB is a NoSQL database. NoSQL databases provide features of retrieval
 # and storage of data in a much different way than relational databases.
@@ -104,3 +107,24 @@ import pymongo
 # PYMONGO
 # The official driver published by Mongo developers is called PyMongo. This is
 # a good place to start when first firing Python with MongoDB.
+
+# Establishing a Connection
+# By default, the connection is established to the 'localhost' and
+# 27017 port. Below is the customized version
+client = MongoClient('localhost', 27017)
+
+# Using the Mongo URI format:
+# client = MongoClient('mongodb://localhost:27017')
+
+# Accessing Databases
+# Once you have a connected instance of MongoClient, you can access any of the
+# datbases within that Mongo server.
+# To specify which database you actually want to use, access it as an attribute
+# db = client.pymongo_test
+
+# Or by dictionary_style access:
+db = client['pymongo_test']
+
+# It doesn't matter if the specified database has been created yet. By
+# specifying this database name and saving data to it, you create the database
+# automatically
