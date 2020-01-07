@@ -193,3 +193,14 @@ for post in scotts_posts:
 # {'_id': ObjectId('5e1514051b5d8d5f43825f18'),
 # 'title': 'Virtual Environments',
 # 'content': 'Use virtual environments, you guys', 'author': 'Scott'}
+
+# MONGOENGINE
+# PyMongo can be a bit too low-level for many projects.
+#
+# One library that provides higher abstraction is MongoEngine. MongoEngine is
+# an object document mapper (ODM), which is rougly equivalent to a SQL-based
+# object relational mapper (ORM). The abstraction is class-based, so all models
+# you create are classes.
+#
+# While other abstraction libraries exist, MongoEngine is one of the better
+# ones as it has a mix of features, flexibility, and community support
