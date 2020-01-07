@@ -147,3 +147,20 @@ post_data = {
 # using the insert_one() method
 result = posts.insert_one(post_data)
 print(f'One post: {result.inserted_id}')
+
+# We can even insert many documents at a time using insert_many(), which takes
+# an array of document data
+post_2 = {
+    'title': 'Virtual Environments',
+    'content': 'Use virtual environments, you guys',
+    'author': 'Scott'
+}
+
+post_3 = {
+    'title': 'Learning Python',
+    'content': 'Learn Python, it is easy',
+    'author': 'Bill'
+}
+
+new_result = posts.insert_many([post_2, post_3])
+print(f'Multiple posts: {new_result.inserted_ids}')
