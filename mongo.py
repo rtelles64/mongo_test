@@ -1,5 +1,11 @@
 # This file demonstrates how to use Python to interface with MongoDB
+import datetime
 import pymongo
+
+# With MongoEngine installed, we need to direct the library to connect with
+# the running instance of Mongo using connect() and passing the host and port
+# of the MongoDB database
+from mongoengine import *
 
 # MongoClient is used to communicate with the running database instance
 from pymongo import MongoClient
@@ -109,9 +115,15 @@ from pymongo import MongoClient
 # a good place to start when first firing Python with MongoDB.
 
 # Establishing a Connection
+# Using PyMongo
 # By default, the connection is established to the 'localhost' and
 # 27017 port. Below is the customized version
 client = MongoClient('localhost', 27017)
+
+# Using MongoEngine
+# connect('mongoengine_test', host='localhost', port=27017)
+# Since we're still using the default host and port, we omit these parameters
+mongo_eng = connect('mongoengine_test')
 
 # Using the Mongo URI format:
 # client = MongoClient('mongodb://localhost:27017')
@@ -123,7 +135,11 @@ client = MongoClient('localhost', 27017)
 # db = client.pymongo_test
 
 # THIS CODE REMOVES DATABASE TO ENSURE WE WORK CLEANLY WITH EACH RUN
+# Using PyMongo
 client.drop_database('pymongo_test')
+
+# Using MongoEngine
+mongo_eng.drop_database('mongoengine_test')
 
 # Or by dictionary_style access:
 db = client['pymongo_test']
@@ -204,3 +220,65 @@ for post in scotts_posts:
 #
 # While other abstraction libraries exist, MongoEngine is one of the better
 # ones as it has a mix of features, flexibility, and community support
+
+
+# Defining a Document
+# To set up our document object, we define what data we want our document
+# object to have. Similar to many ORMs, we do this by subclassing the
+# Document class and providing the types of data we want
+class Post(Document):
+    """
+    A class used to represent a Post
+
+    Parent: Document
+
+    Attributes
+    ----------
+    title : str
+        The title of a post
+    content : str
+        The content of the post
+    author : str
+        The author of the post
+    published : str
+        The date the post was published
+    """
+    title = StringField(required=True, max_length=200)
+    content = StringField(required=True)
+    author = StringField(required=True, max_length=50)
+    published = DateTimeField(default=datetime.datetime.now)
+
+
+# NOTE: One of the more difficult tasks with database models is validating
+#       data. How do you make sure that the data you're saving conforms to some
+#       format you need? Just because a database is said to be schema-less
+#       doesn't mean it is schema-free.
+
+# The Document object uses the information in a Post instance to validate the
+# data we provide it
+
+# Saving Documents
+# To save a document we use the save() method. If the document already exists
+# in the database, then all the changes will be made on the atomic level to the
+# existing document. If it doesn't exist, then it will be created.
+post_4 = Post(
+    title='Sample Post',
+    content='Some engaging content',
+    author='Scott'
+)
+
+post_4.save()  # This performs an insert
+print(post_4.title)  # Sample Post
+post_4.title = 'A Better Post Title'
+post_4.save()  # This performs an atomic edit on "title"
+print(post_4.title)  # A Better Post Title
+
+# A few things about save():
+# - PyMongo will perform validation when you call save(). This means it will
+#   check the data you're saving against the schema you declared in the class.
+#   If the schema (or constraint) is violated, an exception is thrown and the
+#   data is not saved.
+# - Since Mongo doesn't support true transactions, there is no way to "roll
+#   back" the save() call like in SQL databases. Although you can get close to
+#   performing transactions with two phase commits, they still don't support
+#   rollbacks.
