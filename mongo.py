@@ -282,3 +282,29 @@ print(post_4.title)  # A Better Post Title
 #   back" the save() call like in SQL databases. Although you can get close to
 #   performing transactions with two phase commits, they still don't support
 #   rollbacks.
+
+# Object Oriented Features
+# With MongoEngine being object oriented, you can also add methods to your
+# subclassed document.
+
+
+# Referencing Other Documents
+# You can use the ReferenceField object to create a reference from one document
+# to another. MongoEngine handles the lazy de-referencing automatically upon
+# access, which is more robust and less error-prone than having to remember to
+# do it yourself everywhere in your code
+# class Author(Document):
+#     """
+#     A class used to represent an Author
+#
+#     Parent: Document
+#
+#     Attributes
+#     ----------
+#     name : str
+#         The name of the author
+#     """
+#     name = StringField(required=True, max_length=50)
+#
+#
+# Post.objects.first().author.name
